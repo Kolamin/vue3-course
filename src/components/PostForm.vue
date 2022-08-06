@@ -15,7 +15,8 @@
         class="btn"
         @click="createPost"
         style="align-self: flex-end; margin-top: 15px"
-    >Создать</my-button>
+    >Создать
+    </my-button>
   </form>
 </template>
 
@@ -39,10 +40,9 @@ export default {
         body: ''
       }
     }
-  }
+  },
 
 }
-
 </script>
 
 <style scoped>
