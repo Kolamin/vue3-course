@@ -4,6 +4,7 @@
     <my-input
         v-model="searchQuery"
         placeholder="Поиск..."
+        v-focus
     />
     <div class="app__btns">
       <my-button
@@ -27,7 +28,7 @@
     >
     </post-list>
     <div v-else>Идет загрузка...</div>
-    <div ref="observer" class="observer">
+    <div v-intersection="loadMorePosts" class="observer">
 
     </div>
     <!--        <div class="page__wrapper">-->
@@ -99,7 +100,7 @@ export default {
             .get('https://jsonplaceholder.typicode.com/posts', {
               params: {
                 _page: this.page,
-                _limti: this.limit
+                _limtit: this.limit
               }
             })
         this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
@@ -116,12 +117,11 @@ export default {
             .get('https://jsonplaceholder.typicode.com/posts', {
               params: {
                 _page: this.page,
-                _limti: this.limit
+                _limtit: this.limit
               }
             })
         this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
-        this.posts = response.data
-        this.isPostsLoading = false
+        this.posts = [...this.posts, ...response.data];
       } catch (e) {
         alert('Error')
       }
@@ -130,7 +130,7 @@ export default {
   mounted() {
     this.fetchPosts()
     console.log(this.$refs.observer)
-    const options = {
+   /* const options = {
       rootMargin: '0px',
       threshold: 1.0
     }
@@ -140,7 +140,7 @@ export default {
       }
     };
     const observer = new IntersectionObserver(callback, options);
-    observer.observe(this.$refs.observer)
+    observer.observe(this.$refs.observer)*/
   },
   computed: {
     sortedPosts() {
